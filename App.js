@@ -1,18 +1,11 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import AppNavigator from './AppNavigator';
+//import React from 'react';
+import { View } from 'react-native';
+import Login from './Components/Login';
 
-const App = () => {
 
+export default function App(){
   return (
-  // <View style={styles.container}>
-  //     <Login />
-  //   </View>
-  <NavigationContainer>
-      <AppNavigator />
-    </NavigationContainer>
+      <Login />
   );
-};
-
-
-export default App;
+  
+}

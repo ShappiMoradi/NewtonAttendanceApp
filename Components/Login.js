@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import Checkin from './Checkin';
 
-const Login = () => {
-    const navigation = useNavigation();
+const Login = ({ navigation }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -18,15 +17,15 @@ const Login = () => {
         );
     
         if (user) {
-            navigation.navigate('Checkin');
+            
+           navigation.navigate('Checkin');
         } else {
             alert('Login failed. Please check your credentails.');
         }
     } catch (error) {
         console.error('Error fetching data:', error);
     }
-    };
-
+}
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Logga in på Newton</Text>
@@ -42,6 +41,7 @@ const Login = () => {
         onChangeText={(text) => setPassword(text)}
       />
       <Button title="Logga in" onPress={handleLogin} />
+      
     </View>
   );
 };
