@@ -1,11 +1,16 @@
-//import React from 'react';
-import { View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import Login from './Components/Login';
+import Checkin from './Components/Checkin';
 
+const Stack = createStackNavigator();
 
-export default function App(){
+export default function App() {
   return (
-      <Login />
+    <NavigationContainer>
+   <Login />
+  </NavigationContainer>
   );
   
 }

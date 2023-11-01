@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet} from 'react-native';
 
 
 const Login = ({ navigation }) => {
@@ -29,7 +29,8 @@ const Login = ({ navigation }) => {
 }
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Logga in på Newton</Text>
+    <Text style={styles.header}>Newton</Text>
+      <Text style={styles.subheader}>Logga in på Newton</Text>
       <TextInput
         style={styles.input}
         placeholder="Användarnamn"
@@ -52,10 +53,23 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'elative',
   },
   header: {
+    fontSize: 48,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    position: 'absolute',
+    color: 'orange',
+    top: 20,
+    left: 0,
+    right: 0,
+    textAlign: 'center',
+  },
+  subheader: {
     fontSize: 24,
     marginBottom: 20,
+    textAlign: 'center',
   },
   input: {
     width: 300,
