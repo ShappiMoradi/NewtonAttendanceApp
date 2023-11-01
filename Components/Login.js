@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import Checkin from './Checkin';
+
 
 const Login = ({ navigation }) => {
+    
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+
     const handleLogin = async() => {
       try {
-        
         const response = await fetch('http://localhost:3001/users');
         const userData = await response.json();
-
+        
         const user = userData.users.find(
             (user) => user.username === username && user.password === password
         );
     
         if (user) {
-            
+        
            navigation.navigate('Checkin');
         } else {
             alert('Login failed. Please check your credentails.');
