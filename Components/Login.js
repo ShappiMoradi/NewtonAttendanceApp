@@ -4,29 +4,38 @@ import { View, Text, TextInput, Button, StyleSheet} from 'react-native';
 
 const Login = ({ navigation }) => {
     
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
 
-    const handleLogin = async() => {
-      try {
-        const response = await fetch('http://localhost:3001/users');
+  const handleLogin = async() => {
+    try {
+      const response = await fetch('http://localhost:3001/users', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.status === 200) {
         const userData = await response.json();
-        
         const user = userData.users.find(
-            (user) => user.username === username && user.password === password
+          (user) => user.username === username && user.password === password
         );
-    
+
         if (user) {
-        
-           navigation.navigate('Checkin');
+          navigation.navigate('Checkin', { user });
         } else {
-            alert('Login failed. Please check your credentails.');
+          alert('Login failed. Please check your credentials.');
         }
-    } catch (error) {
-        console.error('Error fetching data:', error);
-    }
+      } else {
+        alert('Failed to fetch user data. Please try again later.');
+      }
+  } catch (error) {
+      console.error('Error fetching data:', error);
+  }
 }
+
   return (
     <View style={styles.container}>
     <Text style={styles.header}>Newton</Text>
@@ -47,7 +56,7 @@ const Login = ({ navigation }) => {
     </View>
   );
 };
-
+  
 const styles = StyleSheet.create({
   container: {
     flex: 1,
