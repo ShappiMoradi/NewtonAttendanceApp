@@ -7,10 +7,9 @@ const Login = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-
   const handleLogin = async() => {
     try {
-      const response = await fetch('http://localhost:3001/users', {
+      const response = await fetch('http://10.0.2.2:3001/users', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
