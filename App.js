@@ -8,12 +8,12 @@ const Stack = createStackNavigator();
 
 export default function App() {
   return (
+
     <NavigationContainer>
-      {/* <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Checkin" component={Checkin} />
-      </Stack.Navigator> */}
-      <Login />
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+        <Stack.Screen name="Checkin" component={Checkin} options={{ headerShown: false }}/>
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

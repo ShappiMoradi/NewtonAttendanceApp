@@ -1,61 +1,56 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet} from 'react-native';
-
+import React, { useState, useEffect } from 'react';
+import { View, TextInput, Button, StyleSheet, Text, SafeAreaView } from 'react-native';
+import usersData from '../db.json';
 
 const Login = ({ navigation }) => {
-    
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [users, setUsers] = useState([]);
 
-  const handleLogin = async() => {
-    try {
-      const response = await fetch('http://10.0.2.2:3001/users', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+  useEffect(() => {
+    // Loading the user data into the state
+    setUsers(usersData.users);
+  }, []);
 
-      if (response.status === 200) {
-        const userData = await response.json();
-        const user = userData.users.find(
-          (user) => user.username === username && user.password === password
-        );
+  const handleLogin = async () => {
+    if (users.length === 0) {
+      alert('No users found');
+      return;
+    }
 
-        if (user) {
-          navigation.navigate('Checkin', { user });
-        } else {
-          alert('Login failed. Please check your credentials.');
-        }
-      } else {
-        alert('Failed to fetch user data. Please try again later.');
-      }
-  } catch (error) {
-      console.error('Error fetching data:', error);
-  }
-}
+    const user = users.find(
+      (user) => user.username === username && user.password === password
+    );
+
+    if (user) {
+      navigation.navigate('Checkin', { username: user.username });
+    } else {
+      alert('Invalid username or password');
+    }
+  };
 
   return (
     <View style={styles.container}>
     <Text style={styles.header}>Newton</Text>
-      <Text style={styles.subheader}>Logga in på Newton</Text>
+    <Text style={styles.subheader}>Logga in på Newton</Text>
       <TextInput
         style={styles.input}
         placeholder="Användarnamn"
-        onChangeText={(text) => setUsername(text)}
+        value={username}
+        onChangeText={setUsername}
       />
       <TextInput
         style={styles.input}
         placeholder="Lösenord"
         secureTextEntry={true}
-        onChangeText={(text) => setPassword(text)}
+        value={password}
+        onChangeText={setPassword}
       />
       <Button title="Logga in" onPress={handleLogin} />
-      
     </View>
   );
 };
-  
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -69,7 +64,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     position: 'absolute',
     color: 'orange',
-    top: 20,
+    top: 50,
     left: 0,
     right: 0,
     textAlign: 'center',
