@@ -6,14 +6,14 @@ import Checkin from './Components/Checkin';
 
 const Stack = createStackNavigator();
 
+
 export default function App() {
   return (
-
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
-        <Stack.Screen name="Checkin" component={Checkin} options={{ headerShown: false }}/>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+      <Stack.Screen name="Checkin" component={Checkin} options={{ headerShown: false }}/>
+    </Stack.Navigator>
+  </NavigationContainer>
   );
 }

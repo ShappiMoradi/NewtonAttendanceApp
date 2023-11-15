@@ -23,7 +23,7 @@ const Login = ({ navigation }) => {
     );
 
     if (user) {
-      navigation.navigate('Checkin', { username: user.username });
+      navigation.navigate('Checkin', { name: user.name, class: user.class, city: user.city });
     } else {
       alert('Invalid username or password');
     }
@@ -48,8 +48,10 @@ const Login = ({ navigation }) => {
       />
       <Button title="Logga in" onPress={handleLogin} />
     </View>
+    
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

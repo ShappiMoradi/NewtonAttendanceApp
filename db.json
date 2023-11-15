@@ -6,7 +6,9 @@
         "email": "abdullahiahmed@example.com",
         "username" : "a.ahmed",
         "password" : "dula1996",
-        "age": 25
+        "age": 25,
+        "class": "SYMS 6",
+        "city": "Mamlö"
       },
       {
         "id": 2,
@@ -14,33 +16,10 @@
         "email": "janesmith@example.com",
         "username": "test",
         "password": "test123",
-        "age": 30
-      },
-      {
-        "id": 3,
-        "name": "John Doe",
-        "email": "johndoe@example.com",
-        "username": "j.doe",
-        "password": "doe456",
-        "age": 35
-      },
-      {
-        "id": 4,
-        "name": "Alice Johnson",
-        "email": "alicejohnson@example.com",
-        "username": "alice.j",
-        "password": "alice789",
-        "age": 28
-      },
-      {
-        "id": 5,
-        "name": "David Wilson",
-        "email": "davidwilson@example.com",
-        "username": "d.wilson",
-        "password": "wilson321",
-        "age": 40
+        "age": 30,
+        "class": "SYMS 6",
+        "city": "Mamlö"
       }
-      
     ]
   }
   
