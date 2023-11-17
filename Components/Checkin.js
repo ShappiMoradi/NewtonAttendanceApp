@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import checkins from '../checkins.json';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Checkin = ({ route }) => {
   const { name, class: userClass, city } = route.params;
   const [dateTime, setDateTime] = useState(null);
-  const [checkinsData, setCheckinsData] = useState(checkins);
+  const [checkinsData, setCheckinsData] = useState([]);
 
   useEffect(() => {
     const today = new Date();
@@ -18,8 +18,19 @@ const Checkin = ({ route }) => {
   useEffect(() => {
     // This effect will run whenever checkinsData changes
     console.log('Updated Check-in Data:', checkinsData);
+    saveCheckins();
   }, [checkinsData]);
 
+  const saveCheckins = async () => {
+    try {
+      // Ensure checkinsData is an array before saving
+      const checkinsArray = Array.isArray(checkinsData) ? checkinsData : [];
+
+      await AsyncStorage.setItem('checkins', JSON.stringify(checkinsArray));
+    } catch (error) {
+      console.error('Error saving checkins:', error);
+    }
+  };
 
   const handleCheckIn = (status) => {
     // Prepare the check-in data
@@ -28,13 +39,11 @@ const Checkin = ({ route }) => {
       class: userClass,
       city,
       dateTime,
-      status, // "IN" or "OUT"
+      status,
     };
 
-    //checkins.push(checkinData);
+    // Update state immediately
     setCheckinsData((prevCheckins) => [...prevCheckins, checkinData]);
-
-    //console.log('Updated Check-in Data:', checkinsData);
   };
 
   return (
@@ -42,7 +51,7 @@ const Checkin = ({ route }) => {
       <Text style={styles.header}>Newton</Text>
       <Text style={styles.subheader}>Checka in/ut</Text>
       <View style={styles.buttonContainer}>
-      <TouchableOpacity
+        <TouchableOpacity
           style={[styles.button, styles.inButton]}
           onPress={() => handleCheckIn('IN')}
         >
@@ -61,7 +70,6 @@ const Checkin = ({ route }) => {
         <Text style={styles.userInfo}>Klass: {userClass}</Text>
         <Text style={styles.userInfo}>Ort: {city}</Text>
       </View>
-      
     </View>
   );
 };
