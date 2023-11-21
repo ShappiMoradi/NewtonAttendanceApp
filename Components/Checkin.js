@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 const Checkin = ({ route }) => {
+  const navigation = useNavigation();
   const { name, class: userClass, city } = route.params;
   const [dateTime, setDateTime] = useState(null);
   const [checkinsData, setCheckinsData] = useState([]);
@@ -32,7 +34,7 @@ const Checkin = ({ route }) => {
     }
   };
 
-  const handleCheckIn = (status) => {
+  const handleCheckIn = async (status) => {
     // Prepare the check-in data
     const checkinData = {
       name,
@@ -44,6 +46,40 @@ const Checkin = ({ route }) => {
 
     // Update state immediately
     setCheckinsData((prevCheckins) => [...prevCheckins, checkinData]);
+
+    await saveCheckins();
+
+    // Show an alert
+    if (status === 'IN') {
+      Alert.alert(
+        'Incheckningen lyckades',
+        'Du har checkat IN',
+        [
+          {
+            text: 'OKEJ',
+            onPress: () => console.log('OK Pressed'),
+          },
+        ],
+        { cancelable: false }
+      );
+    } else if (status === 'UT') {
+      Alert.alert(
+        'Utcheckning lyckad',
+        'Du har checkat UT',
+        [
+          {
+            text: 'OKEJ',
+            onPress: () => console.log('OK Pressed'),
+          },
+        ],
+        { cancelable: false }
+      );
+    }
+  };
+
+  const navigateToCheckinHistory = () => {
+    // Navigate to the CheckinHistory screen
+    navigation.navigate('CheckinHistory');
   };
 
   return (
@@ -70,6 +106,12 @@ const Checkin = ({ route }) => {
         <Text style={styles.userInfo}>Klass: {userClass}</Text>
         <Text style={styles.userInfo}>Ort: {city}</Text>
       </View>
+      <TouchableOpacity
+        style={styles.historyButton}
+        onPress={navigateToCheckinHistory}
+      >
+        <Text style={styles.buttonText}>Check-in History</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -128,6 +170,12 @@ const styles = StyleSheet.create({
   userInfo: {
     fontSize: 18,
     marginTop: 10,
+  },
+  historyButton: {
+    marginTop: 20,
+    backgroundColor: 'blue',
+    borderRadius: 5,
+    padding: 10,
   },
 });
 
