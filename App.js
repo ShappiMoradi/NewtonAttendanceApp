@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Navbar from './Components/Navbar';
+//import Navbar from './Components/Navbar';
 import Login from './Components/Login';
 import Checkin from './Components/Checkin';
 import CheckinHistory from './Components/CheckinHistory'

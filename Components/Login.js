@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, StyleSheet, Text, SafeAreaView } from 'react-native';
+import { authorize } from 'react-native-app-auth';
 import usersData from '../db.json';
 
 
@@ -15,7 +16,7 @@ const Login = ({ navigation }) => {
 
   const handleLogin = async () => {
     if (users.length === 0) {
-      alert('No users found');
+      alert('Inga användare hittades');
       return;
     }
 
@@ -26,7 +27,7 @@ const Login = ({ navigation }) => {
     if (user) {
       navigation.navigate('Checkin', { name: user.name, class: user.class, city: user.city });
     } else {
-      alert('Invalid username or password');
+      alert('Ogiltigt användarnamn eller lösenord, försök igen');
     }
   };
 
