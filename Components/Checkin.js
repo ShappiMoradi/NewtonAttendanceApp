@@ -8,6 +8,7 @@ const Checkin = ({ route }) => {
   const { name, class: userClass, city } = route.params;
   const [dateTime, setDateTime] = useState(null);
   const [checkinsData, setCheckinsData] = useState([]);
+  const [isCheckedIn, setIsCheckedIn] = useState(false);
 
   useEffect(() => {
     const today = new Date();
@@ -15,13 +16,34 @@ const Checkin = ({ route }) => {
     const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
     const dateTimeString = `${date} - ${time}`;
     setDateTime(dateTimeString);
+
+    // Is automatically checked out after 17:30
+    const checkOutTime = new Date(date + ' 17:30:00').getTime();
+    if (today.getTime() >= checkOutTime && !isCheckedIn) {
+      handleCheckIn('UT');
+    }
   }, []);
 
   useEffect(() => {
-    // This effect will run whenever checkinsData changes
     console.log('Updated Check-in Data:', checkinsData);
     saveCheckins();
   }, [checkinsData]);
+
+  useEffect(() => {
+    // A timeout to automatically check out the user at 17:30
+    const today = new Date();
+    const checkOutTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 17, 30, 0).getTime();
+    const timeUntilCheckOut = checkOutTime - today.getTime();
+
+    const checkOutTimeout = setTimeout(() => {
+      if (isCheckedIn) {
+        handleCheckIn('UT');
+      }
+    }, timeUntilCheckOut);
+
+    // Clear the timeout when the component unmounts or when the user manually checks out
+    return () => clearTimeout(checkOutTimeout);
+  }, [isCheckedIn]);
 
   const saveCheckins = async () => {
     try {
@@ -29,12 +51,22 @@ const Checkin = ({ route }) => {
       const checkinsArray = Array.isArray(checkinsData) ? checkinsData : [];
 
       await AsyncStorage.setItem('checkins', JSON.stringify(checkinsArray));
+
+      // Update isCheckedIn based on the latest check-in data
+      const latestCheckin = checkinsArray[checkinsArray.length - 1];
+      setIsCheckedIn(latestCheckin?.status === 'IN');
     } catch (error) {
       console.error('Error saving checkins:', error);
     }
   };
 
   const handleCheckIn = async (status) => {
+    // If the user is checking OUT, validate that they have previously checked IN
+    if (status === 'UT' && !isCheckedIn) {
+      Alert.alert('Fel', 'Du måste checka IN innan du kan checka UT');
+      return;
+    }
+
     // Prepare the check-in data
     const checkinData = {
       name,
@@ -94,8 +126,9 @@ const Checkin = ({ route }) => {
           <Text style={styles.buttonText}>IN</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.button, styles.outButton]}
+          style={[styles.button, styles.outButton, !isCheckedIn && styles.disabledButton]}
           onPress={() => handleCheckIn('UT')}
+          disabled={!isCheckedIn}
         >
           <Text style={styles.buttonText}>UT</Text>
         </TouchableOpacity>
@@ -157,6 +190,9 @@ const styles = StyleSheet.create({
   },
   outButton: {
     backgroundColor: 'orange',
+  },
+  disabledButton: {
+    backgroundColor: 'gray',
   },
   buttonText: {
     color: 'white',
