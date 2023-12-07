@@ -1,90 +1,50 @@
-import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, StyleSheet, Text, SafeAreaView } from 'react-native';
+import React from 'react';
+import { View, StyleSheet, Text, Button, } from 'react-native';
 import { authorize } from 'react-native-app-auth';
-import usersData from '../db.json';
-
 
 const Login = ({ navigation }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [users, setUsers] = useState([]);
+  const microsoftConfig = {
+    issuer: 'https://login.microsoftonline.com/74ac9228-53f2-4ced-b479-b365b689ece2/v2.0/.well-known/openid-configuration',
+    clientId: 'ab5e393b-aab9-4c48-b5e8-5529225b02b7',
+    redirectUrl: 'http://localhost:3000',
+    scopes: ['openid', 'profile', 'User.Read'],
+    additionalParameters: { prompt: 'login' },
+  };
 
-  useEffect(() => {
-    // Loading the user data into the state
-    setUsers(usersData.users);
-  }, []);
-
-  const handleLogin = async () => {
-    if (users.length === 0) {
-      alert('Inga användare hittades');
-      return;
-    }
-
-    const user = users.find(
-      (user) => user.username === username && user.password === password
-    );
-
-    if (user) {
-      navigation.navigate('Checkin', { name: user.name, class: user.class, city: user.city });
-    } else {
-      alert('Ogiltigt användarnamn eller lösenord, försök igen');
+  const handleMicrosoftLogin = async () => {
+    try {
+      const result = await authorize(microsoftConfig);
+      navigation.navigate('Checkin', { accessToken: result.accessToken });
+    } catch (error) {
+      console.error('Microsoft Entra ID authentication error:', error);
+      alert('Authentication failed. Please try again.');
     }
   };
 
   return (
     <View style={styles.container}>
-    <Text style={styles.header}>Newton</Text>
-    <Text style={styles.subheader}>Logga in på Newton</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Användarnamn"
-        value={username}
-        onChangeText={setUsername}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Lösenord"
-        secureTextEntry={true}
-        value={password}
-        onChangeText={setPassword}
-      />
-      <Button title="Logga in" onPress={handleLogin} />
+      <Text style={styles.header}>Newton</Text>
+      <Text style={styles.subheader}>Logga in på Newton</Text>
+      <Button title="Logga in med Microsoft Entra ID" onPress={handleMicrosoftLogin} />
     </View>
-    
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'elative',
   },
   header: {
     fontSize: 48,
     fontWeight: 'bold',
     marginBottom: 20,
-    position: 'absolute',
     color: 'orange',
-    top: 50,
-    left: 0,
-    right: 0,
-    textAlign: 'center',
   },
   subheader: {
     fontSize: 24,
     marginBottom: 20,
-    textAlign: 'center',
-  },
-  input: {
-    width: 300,
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 10,
-    padding: 10,
   },
 });
 
