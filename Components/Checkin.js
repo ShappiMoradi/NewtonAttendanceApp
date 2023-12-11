@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
@@ -9,6 +9,7 @@ const Checkin = ({ route }) => {
   const [dateTime, setDateTime] = useState(null);
   const [checkinsData, setCheckinsData] = useState([]);
   const [isCheckedIn, setIsCheckedIn] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     const today = new Date();
@@ -109,6 +110,14 @@ const Checkin = ({ route }) => {
     }
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
   const navigateToCheckinHistory = () => {
     // Navigate to the CheckinHistory screen
     navigation.navigate('CheckinHistory');
@@ -116,35 +125,54 @@ const Checkin = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Newton</Text>
-      <Text style={styles.subheader}>Checka in/ut</Text>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={[styles.button, styles.inButton]}
-          onPress={() => handleCheckIn('IN')}
-        >
-          <Text style={styles.buttonText}>IN</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, styles.outButton, !isCheckedIn && styles.disabledButton]}
-          onPress={() => handleCheckIn('UT')}
-          disabled={!isCheckedIn}
-        >
-          <Text style={styles.buttonText}>UT</Text>
-        </TouchableOpacity>
-      </View>
-      <Text style={styles.paragraph}>{dateTime}</Text>
-      <View>
-        <Text style={styles.userInfo}>Namn: {name}</Text>
-        <Text style={styles.userInfo}>Klass: {userClass}</Text>
-        <Text style={styles.userInfo}>Ort: {city}</Text>
-      </View>
-      <TouchableOpacity
-        style={styles.historyButton}
-        onPress={navigateToCheckinHistory}
-      >
-        <Text style={styles.buttonText}>Check-in History</Text>
+      <TouchableOpacity style={styles.sidebarButton} onPress={toggleSidebar}>
+        <Text style={styles.sidebarButtonText}>{isSidebarOpen ? 'X' : '☰'}</Text>
       </TouchableOpacity>
+
+      {isSidebarOpen && (
+        <View style={styles.sidebar}>
+          <TouchableOpacity onPress={closeSidebar}>
+          </TouchableOpacity>
+        </View>
+      )}
+
+      <ScrollView contentContainerStyle={styles.mainContent}>
+        <Text style={styles.header}>Newton</Text>
+        <Image
+          source={require('./Image/Newton-logo.png')} 
+          style={styles.logoImage}
+        />
+        <Text style={styles.subheader}>Checka in/ut</Text>
+        <View style={styles.centeredContent}>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={[styles.button, styles.inButton]}
+              onPress={() => handleCheckIn('IN')}
+            >
+              <Text style={styles.buttonText}>IN</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, styles.outButton, !isCheckedIn && styles.disabledButton]}
+              onPress={() => handleCheckIn('UT')}
+              disabled={!isCheckedIn}
+            >
+              <Text style={styles.buttonText}>UT</Text>
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.paragraph}>{dateTime}</Text>
+          <View>
+            <Text style={styles.userInfo}>Namn: {name}</Text>
+            <Text style={styles.userInfo}>Klass: {userClass}</Text>
+            <Text style={styles.userInfo}>Ort: {city}</Text>
+          </View>
+          <TouchableOpacity
+            style={styles.historyButton}
+            onPress={navigateToCheckinHistory}
+          >
+            <Text style={styles.buttonText}>Check-in History</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -152,44 +180,88 @@ const Checkin = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FF8C00',
+    padding: 16,
+  },
+  sidebarButton: {
+    position: 'absolute',
+    top: 30,
+    left: 30,
+    zIndex: 2,
+  },
+  sidebarButtonText: {
+    fontSize: 24,
+    color: 'white',
+    marginBottom: 25,
+  },
+  sidebar: {
+    backgroundColor: 'rgba(200, 200, 200, 0.1)',
+    width: '25%',
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    justifyContent: 'left',
+    alignItems: 'flex-start',
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+  },
+  mainContent: {
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
+  centeredContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 90,
+  },
   header: {
-    fontSize: 48,
+    fontSize: 36,
     fontWeight: 'bold',
-    marginBottom: 20,
-    position: 'absolute',
-    color: 'orange',
-    top: 50,
-    left: 0,
-    right: 0,
+    marginBottom: 40, 
+    color: '#FFD700', 
     textAlign: 'center',
   },
   subheader: {
     fontSize: 28,
-    marginBottom: 20,
+    marginBottom: 10, 
     textAlign: 'center',
+    color: '#FFD700', 
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '80%',
+    marginBottom: 50,
+    marginRight: -60,
   },
   button: {
-    marginVertical: 10,
+    marginVertical: -10,
     borderRadius: 5,
     width: '40%',
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
   },
   inButton: {
-    backgroundColor: 'green',
+    backgroundColor: '#32CD32', 
+    marginRight: 0,
   },
   outButton: {
-    backgroundColor: 'orange',
+    backgroundColor: '#FF8C00', 
   },
   disabledButton: {
     backgroundColor: 'gray',
@@ -202,16 +274,37 @@ const styles = StyleSheet.create({
   paragraph: {
     fontSize: 22,
     marginTop: 10,
+    marginBottom: 20,
+    marginRight: -55,
+    color: 'white',
   },
   userInfo: {
     fontSize: 18,
     marginTop: 10,
+    marginBottom: 20,
+    color: 'white',
   },
   historyButton: {
     marginTop: 20,
-    backgroundColor: 'blue',
+    backgroundColor: '#32CD32', 
     borderRadius: 5,
     padding: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
+  },
+  logoImage: {
+    width: 100,
+    height: 100,
+    marginBottom: 20,
+    borderRadius: 50, 
+    borderColor: '#FFD700',
+    borderWidth: 2, 
   },
 });
 
