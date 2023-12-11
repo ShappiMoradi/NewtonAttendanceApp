@@ -129,15 +129,13 @@ const Checkin = ({ route }) => {
         <Text style={styles.sidebarButtonText}>{isSidebarOpen ? 'X' : '☰'}</Text>
       </TouchableOpacity>
 
-  
       {isSidebarOpen && (
         <View style={styles.sidebar}>
-          <TouchableOpacity onPress={closeSidebar}
+          <TouchableOpacity onPress={closeSidebar}>
           </TouchableOpacity>
         </View>
       )}
 
-    
       <ScrollView contentContainerStyle={styles.mainContent}>
         <Text style={styles.header}>Newton</Text>
         <Image
