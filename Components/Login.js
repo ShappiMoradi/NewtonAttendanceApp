@@ -1,31 +1,43 @@
-import React from 'react';
-import { View, StyleSheet, Text, Button, } from 'react-native';
-import { authorize } from 'react-native-app-auth';
+import React, { useState } from 'react';
+import { View, StyleSheet, Text, Button } from 'react-native';
+import AppAuth from 'react-native-app-auth';
+import { microsoftConfig } from '../Config';
 
-const Login = ({ navigation }) => {
-  const microsoftConfig = {
-    issuer: 'https://login.microsoftonline.com/74ac9228-53f2-4ced-b479-b365b689ece2/v2.0/.well-known/openid-configuration',
-    clientId: 'ab5e393b-aab9-4c48-b5e8-5529225b02b7',
-    redirectUrl: 'http://localhost:3000',
-    scopes: ['openid', 'profile', 'User.Read'],
-    additionalParameters: { prompt: 'login' },
-  };
+const Login = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [accessToken, setAccessToken] = useState('');
 
   const handleMicrosoftLogin = async () => {
+    setIsLoading(true);
+
     try {
-      const result = await authorize(microsoftConfig);
-      navigation.navigate('Checkin', { accessToken: result.accessToken });
+      const result = await AppAuth.authorize(microsoftConfig);
+      setAccessToken(result.accessToken);
+
+      // Handle successful authentication
+      console.log('Authentication successful:', result);
+
+      // Navigate to the Checkin screen with the access token
+      navigation.navigate('Checkin', { accessToken });
     } catch (error) {
+      setIsLoading(false);
       console.error('Microsoft Entra ID authentication error:', error);
+      // Handle authentication error
       alert('Authentication failed. Please try again.');
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Newton</Text>
-      <Text style={styles.subheader}>Logga in på Newton</Text>
-      <Button title="Logga in med Microsoft Entra ID" onPress={handleMicrosoftLogin} />
+      {isLoading ? (
+        <Text>Authenticating...</Text>
+      ) : (
+        <View style={styles.loginContainer}>
+          <Text style={styles.header}>Newton</Text>
+          <Text style={styles.subheader}>Log in to Newton</Text>
+          <Button title="Log in with Microsoft Entra ID" onPress={handleMicrosoftLogin} />
+        </View>
+      )}
     </View>
   );
 };
@@ -35,12 +47,19 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  loginContainer: {
+    marginTop: 20,
+    borderRadius: 10,
+    padding: 20,
+    backgroundColor: '#f2f2f2',
   },
   header: {
     fontSize: 48,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: 'orange',
+    color: '#007bff',
   },
   subheader: {
     fontSize: 24,
