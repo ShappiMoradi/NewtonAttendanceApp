@@ -125,7 +125,6 @@ const Checkin = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      {/* Sidebar Button */}
       <TouchableOpacity style={styles.sidebarButton} onPress={toggleSidebar}>
         <Text style={styles.sidebarButtonText}>{isSidebarOpen ? 'X' : '☰'}</Text>
       </TouchableOpacity>
