@@ -4,11 +4,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
 const Checkin = ({ route }) => {
-  const navigation = useNavigation();
-  const { name, class: userClass, city } = route.params;
   const [dateTime, setDateTime] = useState(null);
   const [checkinsData, setCheckinsData] = useState([]);
   const [isCheckedIn, setIsCheckedIn] = useState(false);
+
+  const navigation = useNavigation();
+  const { name, class: userClass, city } = route.params;
 
   useEffect(() => {
     const today = new Date();
@@ -83,29 +84,19 @@ const Checkin = ({ route }) => {
 
     // Show an alert
     if (status === 'IN') {
-      Alert.alert(
-        'Incheckningen lyckades',
-        'Du har checkat IN',
-        [
-          {
-            text: 'OKEJ',
-            onPress: () => console.log('OK Pressed'),
-          },
-        ],
-        { cancelable: false }
-      );
+      Alert.alert('Incheckningen lyckades', 'Du har checkat IN', [
+        {
+          text: 'OKEJ',
+          onPress: () => console.log('OK Pressed'),
+        },
+      ], { cancelable: false });
     } else if (status === 'UT') {
-      Alert.alert(
-        'Utcheckning lyckad',
-        'Du har checkat UT',
-        [
-          {
-            text: 'OKEJ',
-            onPress: () => console.log('OK Pressed'),
-          },
-        ],
-        { cancelable: false }
-      );
+      Alert.alert('Utcheckning lyckad', 'Du har checkat UT', [
+        {
+          text: 'OKEJ',
+          onPress: () => console.log('OK Pressed'),
+        },
+      ], { cancelable: false });
     }
   };
 

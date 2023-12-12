@@ -1,43 +1,34 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, Button } from 'react-native';
-import AppAuth from 'react-native-app-auth';
-import { microsoftConfig } from '../Config';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { login } from './msalConfig';
 
 const Login = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [accessToken, setAccessToken] = useState('');
+  //const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleMicrosoftLogin = async () => {
-    setIsLoading(true);
-
+  const handleLogin = async () => {
     try {
-      const result = await AppAuth.authorize(microsoftConfig);
-      setAccessToken(result.accessToken);
-
-      // Handle successful authentication
-      console.log('Authentication successful:', result);
-
-      // Navigate to the Checkin screen with the access token
-      navigation.navigate('Checkin', { accessToken });
+      const authResult = await login(msalConfig);
+      if (authResult.status === 'success') {
+        setIsLoggedIn(true);
+      }
     } catch (error) {
-      setIsLoading(false);
-      console.error('Microsoft Entra ID authentication error:', error);
-      // Handle authentication error
-      alert('Authentication failed. Please try again.');
+      console.error('Authentication error:', error);
     }
   };
 
   return (
     <View style={styles.container}>
-      {isLoading ? (
-        <Text>Authenticating...</Text>
-      ) : (
-        <View style={styles.loginContainer}>
-          <Text style={styles.header}>Newton</Text>
-          <Text style={styles.subheader}>Log in to Newton</Text>
-          <Button title="Log in with Microsoft Entra ID" onPress={handleMicrosoftLogin} />
-        </View>
-      )}
+      <Text style={styles.header}>Newton</Text>
+      <Text style={styles.subheader}>Logga in</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Användarnamn"
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Lösenord"
+      />
+      <Button title="Logga in" onPress={handleLogin} />
     </View>
   );
 };
