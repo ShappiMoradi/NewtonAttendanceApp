@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView, Image } fr
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
+
 const Checkin = ({ route }) => {
   const navigation = useNavigation();
   const { name, class: userClass, city } = route.params;
@@ -118,6 +119,11 @@ const Checkin = ({ route }) => {
     setIsSidebarOpen(false);
   };
 
+
+  const navigateToEdit = () => {
+  navigation.navigate('Edit');
+  };
+
   const navigateToCheckinHistory = () => {
     // Navigate to the CheckinHistory screen
     navigation.navigate('CheckinHistory');
@@ -131,9 +137,12 @@ const Checkin = ({ route }) => {
 
       {isSidebarOpen && (
         <View style={styles.sidebar}>
-          <TouchableOpacity onPress={closeSidebar}>
+         <TouchableOpacity onPress={navigateToEdit}>
+         <Text style={[styles.sidebarButtonEdit]}>- Edit</Text>
           </TouchableOpacity>
-        </View>
+          <TouchableOpacity onPress={closeSidebar}>
+         </TouchableOpacity>
+       </View>
       )}
 
       <ScrollView contentContainerStyle={styles.mainContent}>
@@ -192,22 +201,31 @@ const styles = StyleSheet.create({
     left: 30,
     zIndex: 2,
   },
-  sidebarButtonText: {
-    fontSize: 24,
-    color: 'white',
-    marginBottom: 25,
-  },
+
   sidebar: {
     backgroundColor: 'rgba(200, 200, 200, 0.1)',
     width: '25%',
     paddingVertical: 10,
     paddingHorizontal: 10,
-    justifyContent: 'left',
+    justifyContent: 'flex-start',
     alignItems: 'flex-start',
     position: 'absolute',
     left: 0,
     top: 0,
     bottom: 0,
+  },
+    sidebarButtonText: {
+    fontSize: 24,
+    color: 'white',
+    marginBottom: 25,
+  },
+
+  sidebarButtonEdit: {
+  fontSize:'16',
+  fontWeight: 'bold',
+  marginTop: 80,
+  marginLeft: 10,
+  
   },
   mainContent: {
     flexGrow: 1,
