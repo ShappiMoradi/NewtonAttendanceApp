@@ -255,12 +255,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 40, 
     color: '#FFD700', 
-    textAlign: 'center',
+    //textAlign: 'center',
   },
   subheader: {
     fontSize: 28,
     marginBottom: 10, 
-    textAlign: 'center',
+    //textAlign: 'center',
     color: '#FFD700', 
   },
   buttonContainer: {
