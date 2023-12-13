@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginVertical: -10,
-    borderRadius: 5,
+    // borderRadius: 5,
     width: '40%',
     height: 40,
     justifyContent: 'center',
@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
   historyButton: {
     marginTop: 20,
     backgroundColor: '#32CD32', 
-    borderRadius: 5,
+    //  borderRadius: 5,
     padding: 10,
     shadowColor: '#000',
     shadowOffset: {
@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     marginBottom: 20,
-    borderRadius: 50, 
+    //borderRadius:5,
     borderColor: '#FFD700',
     borderWidth: 2, 
   },
