@@ -124,6 +124,8 @@ const Checkin = ({ route }) => {
   navigation.navigate('Edit');
   };
 
+
+
   const navigateToCheckinHistory = () => {
     // Navigate to the CheckinHistory screen
     navigation.navigate('CheckinHistory');
@@ -142,7 +144,10 @@ const Checkin = ({ route }) => {
           </TouchableOpacity>
           <TouchableOpacity onPress={closeSidebar}>
          </TouchableOpacity>
-       </View>
+        <TouchableOpacity onPress={closeSidebar}>
+          </TouchableOpacity>
+        </View>
+
       )}
 
       <ScrollView contentContainerStyle={styles.mainContent}>
@@ -202,18 +207,25 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
 
+  sidebarButtonText: {
+    fontSize: 24,
+    color: 'white',
+    marginBottom: 25,
+  },
   sidebar: {
     backgroundColor: 'rgba(200, 200, 200, 0.1)',
     width: '25%',
     paddingVertical: 10,
     paddingHorizontal: 10,
     justifyContent: 'flex-start',
+    justifyContent: 'left',
     alignItems: 'flex-start',
     position: 'absolute',
     left: 0,
     top: 0,
     bottom: 0,
   },
+
     sidebarButtonText: {
     fontSize: 24,
     color: 'white',
@@ -227,6 +239,7 @@ const styles = StyleSheet.create({
   marginLeft: 10,
   
   },
+
   mainContent: {
     flexGrow: 1,
     justifyContent: 'center',
