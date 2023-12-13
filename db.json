@@ -8,17 +8,27 @@
         "password" : "dula1996",
         "age": 25,
         "class": "SYMS 6",
-        "city": "Mamlö"
+        "city": "Malmö"
       },
       {
-        "id": 2,
+      "id": 2,
+        "name": "Shappi Moradi",
+        "email": "shappi.moradi@hotmail.com",
+        "username": "Shappi",
+        "password": "test",
+        "age": 32,
+        "class": "SYMS 6",
+        "city": "Malmö"
+      },
+      {
+        "id": 3,
         "name": "Jane Smith",
         "email": "janesmith@example.com",
         "username": "test",
         "password": "test",
         "age": 30,
         "class": "SYMS 6",
-        "city": "Mamlö"
+        "city": "Malmö"
       }
     ]
   }
