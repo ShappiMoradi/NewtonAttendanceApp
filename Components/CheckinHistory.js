@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CheckinHistory = () => {
@@ -27,13 +27,21 @@ const CheckinHistory = () => {
   const renderCheckinItem = ({ item }) => (
     <View style={styles.checkinItem}>
       <Text style={styles.dateTime}>{item.dateTime}</Text>
-      <Text style={styles.status}>{item.status}</Text>
+      <Text style={styles.status}>
+        {item.status === 'IN' ? <Text style={{ color: '#32CD32' }}>IN</Text> : <Text style={{ color: '#FF8C00' }}>UT</Text>}
+      </Text>
     </View>
   );
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Newton</Text>
+      <View style={styles.logoAndHeader}>
+        <Text style={styles.header}>Newton</Text>
+        <Image
+          source={require('./Image/Newton-logo.png')}
+          style={styles.logoImage}
+        />
+      </View>
       <Text style={styles.subheader}>Incheckningshistorik</Text>
       {checkinsHistory.length > 0 ? (
         <FlatList
@@ -51,21 +59,29 @@ const CheckinHistory = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#ffbd00',
+    padding: 16,
   },
-  header: {
-    fontSize: 48,
-    fontWeight: 'bold',
+  logoAndHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: 20,
     marginTop: 20,
-    color: 'orange',
-    textAlign: 'center',
+  },
+  header: {
+    fontSize: 45,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#f69e32',
   },
   subheader: {
     fontSize: 28,
     marginBottom: 20,
     textAlign: 'center',
+    color: '#fff6df',
   },
   checkinItem: {
     flexDirection: 'row',
@@ -74,8 +90,8 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     padding: 10,
     backgroundColor: '#f0f0f0',
-    borderRadius: 8,
-    width: '80%',
+    //borderRadius: 8,
+    width: '84%',
   },
   dateTime: {
     fontSize: 16,
@@ -84,7 +100,11 @@ const styles = StyleSheet.create({
   status: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#007BFF',
+  },
+  logoImage: {
+    width: 50,
+    height: 50,
+    marginLeft: 5,
   },
 });
 

@@ -32,11 +32,14 @@ const Login = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-    <Image
-        source={require('./Image/Newton-logo.png')} 
-        style={styles.logoImage}/>
-    <Text style={styles.header}>Newton</Text>
-    <Text style={styles.subheader}>Logga in på Newton</Text>
+      <View style={styles.logoAndHeader}>
+        <Text style={styles.header}>Newton</Text>
+        <Image
+          source={require('./Image/Newton-logo.png')}
+          style={styles.logoImage}
+        />
+      </View>
+      <Text style={styles.subheader}>Logga in på Newton</Text>
       <TextInput
         style={styles.input}
         placeholder="Användarnamn"
@@ -52,36 +55,39 @@ const Login = ({ navigation }) => {
       />
       <Button title="Logga in" onPress={handleLogin} />
     </View>
-    
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FF8C00',
+    backgroundColor: '#ffbd00',
     padding: '16',
     justifyContent: 'center',
     alignItems: 'center',
-   
+  },
+  logoAndHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+    justifyContent: 'top',
+    marginTop: -300,
+    marginBottom: 150,
   },
   header: {
-    fontSize: 36,
-    color: 'orange',
+    fontSize: 45,
+    color: '#f69e32',
     fontWeight: 'bold',
-    marginBottom: 20,
-    
+    marginBottom: 10,
   },
   subheader: {
-    color: 'black',
+    color: '#fff6df',
     fontSize: 18,
     marginBottom: 20,
-  textAlign: 'center',
+    textAlign: 'center',
   },
   input: {
-    backgroundColor:'white',
-    //borderRadius:'8',
+    backgroundColor: 'white',
     width: '90%',
     height: 40,
     borderColor: 'gray',
@@ -90,24 +96,24 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 
-  logoImage:{
-   width:120,
-   height:120,
-   marginBottom:40,
+  logoImage: {
+    width: 50,
+    height: 50,
+    marginBottom: 40,
+    marginLeft: 5,
   },
 
   loginButton: {
-  backgroundColor: 'green',
-  //borderRadius: 25,
-  paddingHorizontal: 24,
-  paddingVertical: 12,
-  marginTop:20,
+    backgroundColor: 'green',
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    marginTop: 20,
   },
 
   LoginButtonText: {
     fontSize: 16,
-  color:'white',
-  textAlign: 20,
+    color: 'white',
+    textAlign: 'center',
   }
 });
 

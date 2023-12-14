@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+
 
 const Checkin = ({ route }) => {
   const navigation = useNavigation();
@@ -9,7 +10,7 @@ const Checkin = ({ route }) => {
   const [dateTime, setDateTime] = useState(null);
   const [checkinsData, setCheckinsData] = useState([]);
   const [isCheckedIn, setIsCheckedIn] = useState(false);
-
+  
   useEffect(() => {
     const today = new Date();
     const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -108,7 +109,6 @@ const Checkin = ({ route }) => {
       );
     }
   };
-
   const navigateToCheckinHistory = () => {
     // Navigate to the CheckinHistory screen
     navigation.navigate('CheckinHistory');
@@ -116,35 +116,43 @@ const Checkin = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Newton</Text>
-      <Text style={styles.subheader}>Checka in/ut</Text>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={[styles.button, styles.inButton]}
-          onPress={() => handleCheckIn('IN')}
-        >
-          <Text style={styles.buttonText}>IN</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, styles.outButton, !isCheckedIn && styles.disabledButton]}
-          onPress={() => handleCheckIn('UT')}
-          disabled={!isCheckedIn}
-        >
-          <Text style={styles.buttonText}>UT</Text>
-        </TouchableOpacity>
+        <View style={styles.logoAndHeader}>
+        <Text style={styles.header}>Newton</Text>
+        <Image
+          source={require('./Image/Newton-logo.png')}
+          style={styles.logoImage}
+        />
       </View>
-      <Text style={styles.paragraph}>{dateTime}</Text>
-      <View>
-        <Text style={styles.userInfo}>Namn: {name}</Text>
-        <Text style={styles.userInfo}>Klass: {userClass}</Text>
-        <Text style={styles.userInfo}>Ort: {city}</Text>
-      </View>
-      <TouchableOpacity
-        style={styles.historyButton}
-        onPress={navigateToCheckinHistory}
-      >
-        <Text style={styles.buttonText}>Check-in History</Text>
-      </TouchableOpacity>
+        <Text style={styles.subheader}>Checka in/ut</Text>
+        <View style={styles.centeredContent}>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={[styles.button, styles.inButton]}
+              onPress={() => handleCheckIn('IN')}
+            >
+              <Text style={styles.buttonText}>IN</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, styles.outButton, !isCheckedIn && styles.disabledButton]}
+              onPress={() => handleCheckIn('UT')}
+              disabled={!isCheckedIn}
+            >
+              <Text style={styles.buttonText}>UT</Text>
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.paragraph}>{dateTime}</Text>
+          <View>
+            <Text style={styles.userInfo}>Namn: {name}</Text>
+            <Text style={styles.userInfo}>Klass: {userClass}</Text>
+            <Text style={styles.userInfo}>Ort: {city}</Text>
+          </View>
+          <TouchableOpacity
+            style={styles.historyButton}
+            onPress={navigateToCheckinHistory}
+          >
+            <Text style={styles.buttonText}>Incheckningshistorik</Text>
+          </TouchableOpacity>
+        </View>
     </View>
   );
 };
@@ -152,44 +160,66 @@ const Checkin = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#ffbd00',
+    padding: 16,
+  },
+  logoAndHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+    marginTop: -150,
+    //justifyContent: 'top',
+  },
+  centeredContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 90,
   },
   header: {
-    fontSize: 48,
+    fontSize: 45,
     fontWeight: 'bold',
-    marginBottom: 20,
-    position: 'absolute',
-    color: 'orange',
-    top: 50,
-    left: 0,
-    right: 0,
-    textAlign: 'center',
+    marginBottom: 20, 
+    color: '#f69e32',
   },
   subheader: {
     fontSize: 28,
-    marginBottom: 20,
-    textAlign: 'center',
+    marginBottom: 10, 
+    marginTop: 10,
+    color: '#fff6df', 
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    width: '80%',
+    width: '100%',
+    marginBottom: 50,
+    marginRight: -50,
   },
   button: {
-    marginVertical: 10,
+    marginVertical: -10,
     borderRadius: 5,
     width: '40%',
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
   },
   inButton: {
-    backgroundColor: 'green',
+    backgroundColor: '#32CD32', 
+    marginRight: 0,
   },
   outButton: {
-    backgroundColor: 'orange',
+    backgroundColor: '#FF8C00', 
   },
   disabledButton: {
     backgroundColor: 'gray',
@@ -202,16 +232,34 @@ const styles = StyleSheet.create({
   paragraph: {
     fontSize: 22,
     marginTop: 10,
+    marginBottom: 20,
+    color: 'white',
   },
   userInfo: {
     fontSize: 18,
     marginTop: 10,
+    marginBottom: 20,
+    color: 'white',
   },
   historyButton: {
     marginTop: 20,
-    backgroundColor: 'blue',
+    backgroundColor: '#32CD32', 
     borderRadius: 5,
     padding: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
+  },
+  logoImage: {
+    width: 50,
+    height: 50,
+    marginBottom: 40,
+    marginLeft: 5,
   },
 });
 
