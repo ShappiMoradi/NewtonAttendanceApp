@@ -119,7 +119,7 @@ const Checkin = ({ route }) => {
         <View style={styles.logoAndHeader}>
         <Text style={styles.header}>Newton</Text>
         <Image
-          source={require('./Image/Newton-logo.png')}
+          source={require('./Image/Newton.png')}
           style={styles.logoImage}
         />
       </View>
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ffbd00',
+    backgroundColor: '#FF8C00',
     padding: 16,
   },
   logoAndHeader: {
@@ -171,7 +171,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 20,
     marginTop: -150,
-    //justifyContent: 'top',
   },
   centeredContent: {
     justifyContent: 'center',
@@ -182,7 +181,7 @@ const styles = StyleSheet.create({
     fontSize: 45,
     fontWeight: 'bold',
     marginBottom: 20, 
-    color: '#f69e32',
+    color: '#f7aa4b',
   },
   subheader: {
     fontSize: 28,

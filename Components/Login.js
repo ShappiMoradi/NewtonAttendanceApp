@@ -35,7 +35,7 @@ const Login = ({ navigation }) => {
       <View style={styles.logoAndHeader}>
         <Text style={styles.header}>Newton</Text>
         <Image
-          source={require('./Image/Newton-logo.png')}
+          source={require('./Image/Newton.png')}
           style={styles.logoImage}
         />
       </View>
@@ -61,7 +61,7 @@ const Login = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffbd00',
+    backgroundColor: '#FF8C00',
     padding: '16',
     justifyContent: 'center',
     alignItems: 'center',
@@ -72,11 +72,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     justifyContent: 'top',
     marginTop: -300,
-    marginBottom: 150,
+    marginBottom: 200,
   },
   header: {
     fontSize: 45,
-    color: '#f69e32',
+    color: '#f7aa4b',
     fontWeight: 'bold',
     marginBottom: 10,
   },
