@@ -8,7 +8,7 @@
         "password" : "dula1996",
         "age": 25,
         "class": "SYMS 6",
-        "city": "Mamlö"
+        "city": "Malmö"
       },
       {
         "id": 2,
@@ -18,7 +18,7 @@
         "password": "test",
         "age": 30,
         "class": "SYMS 6",
-        "city": "Mamlö"
+        "city": "Malmö"
       }
     ]
   }
